@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101017">
+<meta name="description" content="Leyla Çarşaf Geçirme Simülasyonu: KYK Edition. Çarşafın dört köşesini yatağa geçir, lastik isyanını yen ve KYK Final Boss'u alt et!">
+<title>Leyla Çarşaf Geçirme Simülasyonu — KYK Edition</title>
+<style>
+:root{--bg:#0c0b11;--panel:#18151f;--ink:#f9ecf4;--muted:#ad9aa9;--pink:#ff76ad;--pink2:#f3a7cb;--lilac:#bda5ff;--mint:#bcefd9}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;background:radial-gradient(ellipse 68% 55% at 88% 4%,#47203988,transparent 80%),radial-gradient(ellipse 60% 45% at 10% 80%,#33244955,transparent 75%),var(--bg);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(#ffffff12 0.7px,transparent 0.7px);background-size:22px 22px;opacity:.4}
+button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #fff;outline-offset:4px}
+.wrap{position:relative;max-width:1250px;margin:0 auto;padding:28px 26px 46px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:36px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}.logo{display:grid;place-items:center;width:44px;height:44px;border-radius:14px;background:#ff80b222;box-shadow:inset 0 0 0 1px #ff8abb55;font-size:23px}.brand strong{display:block;letter-spacing:.04em;font-size:13px}.brand small{display:block;letter-spacing:.16em;font-weight:700;color:var(--pink);font-size:9px;margin-top:3px}
+.chip{border:1px solid #ff9fc05c;background:#ff8ab018;border-radius:99px;padding:9px 14px;color:#ffd6e7;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.hero{display:grid;grid-template-columns:1fr auto;align-items:center;gap:26px;margin-bottom:28px}
+.eyebrow{color:var(--pink2);font-size:11px;font-weight:850;letter-spacing:.25em;text-transform:uppercase;display:flex;align-items:center;gap:10px}.eyebrow:before{content:"";width:31px;height:1px;background:var(--pink)}
+h1{font-size:clamp(34px,5.2vw,72px);line-height:.98;letter-spacing:-.075em;margin:13px 0 16px;font-weight:900;max-width:870px}h1 em{font-style:normal;background:linear-gradient(120deg,#ff9abc,#d1b8ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.subtitle{color:#c4b5c0;font-size:14px;line-height:1.8;max-width:560px;margin:0}.pink{color:var(--pink)}
+.profile{display:flex;align-items:center;gap:15px;border:1px solid #ffffff18;background:#ffffff08;padding:12px 18px 12px 12px;border-radius:23px;min-width:230px;box-shadow:0 24px 50px #0005;transform:rotate(2deg)}
+.avatar{width:72px;height:72px;border-radius:19px;object-fit:cover;border:2px solid #ff94b8;background:#33202b}.profile strong{display:block;font-size:18px}.profile span{display:block;color:#d7bbcb;font-size:11px;margin-top:5px}
+.layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(265px,.75fr);gap:19px;align-items:start}
+.mainCard,.sideCard{border:1px solid #ffffff16;border-radius:23px;background:linear-gradient(150deg,#221a28ed,#13121beb);box-shadow:0 22px 65px #0004;overflow:hidden}
+.gamehead{display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;gap:12px}.sectiontitle{font-size:11px;text-transform:uppercase;letter-spacing:.16em;font-weight:850;color:#e8cde0}
+.leveltag{font-size:11px;font-weight:750;color:var(--pink);background:#ff79a91b;padding:8px 13px;border:1px solid #ff81ac3f;border-radius:99px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:0 20px 14px}
+.stat{background:#0d0c14a0;border:1px solid #ffffff13;border-radius:13px;padding:13px 14px;min-width:0}.stat small{display:block;text-transform:uppercase;font-size:9px;letter-spacing:.16em;color:#ad9bac;font-weight:850}.stat strong{display:block;font-size:clamp(17px,2.3vw,26px);margin-top:3px;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+#clock.danger{color:#ff7795;animation:pulse .7s infinite alternate}
+.stage{margin:0 20px;position:relative;overflow:hidden;border-radius:18px;background:#140e1c;border:1px solid #ffffff16;aspect-ratio:900/540}
+#board{width:100%;height:100%;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+#board .grip{cursor:grab;touch-action:none}#board .grip:active{cursor:grabbing}#board .target{transition:opacity .2s}#board .labelText{font-weight:750;letter-spacing:.05em}
+.cover{position:absolute;inset:0;background:#09080edb;backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:25px;text-align:center;z-index:5}.cover.hidden{display:none}
+.modal{width:min(400px,100%)}.modal .tag{color:#ffb1d1;font-size:10px;letter-spacing:.22em;font-weight:900;text-transform:uppercase}.modal .big{font-size:clamp(40px,7vw,65px);margin:8px 0 5px;line-height:1}.modal h2{font-size:clamp(25px,4vw,40px);line-height:1.1;letter-spacing:-.05em;margin:0 0 12px}.modal p{color:#e0cbd8;line-height:1.6;font-size:13px;margin:0 auto 22px;max-width:315px}
+.btn{border:0;border-radius:14px;padding:13px 25px;color:#1e0a17;font-weight:850;background:linear-gradient(110deg,#ffa1c2,#c5adff);box-shadow:0 8px 35px #ff78ac40;transition:transform .15s}.btn:hover{transform:translateY(-2px)}.btn:active{transform:scale(.97)}
+.note{display:flex;align-items:center;gap:9px;color:#a99aab;padding:15px 21px 21px;font-size:11px;line-height:1.5}.note b{color:#f8c8df}
+.side{display:flex;flex-direction:column;gap:17px}.sideCard{padding:24px}.sideHeader{display:flex;align-items:center;gap:10px;margin-bottom:16px;color:#f7dce9;font-size:12px;font-weight:850;letter-spacing:.1em;text-transform:uppercase}
+.sideHeader .ico{background:#ff8fb424;border-radius:9px;padding:7px;font-size:17px}
+.desc{font-size:12px;line-height:1.75;color:#c0b0c1;margin:0 0 22px}
+.steps{display:flex;flex-direction:column;gap:10px}.step{display:flex;align-items:center;gap:11px;color:#ac9cac;font-size:12px;padding:12px;border:1px solid #ffffff12;border-radius:12px;background:#ffffff05}.step .num{display:grid;place-items:center;width:28px;height:28px;flex:none;border:1px solid #ffffff26;border-radius:10px;font-size:11px;font-weight:800}.step.active{color:#ffe0ed;border-color:#ff8bb95d;background:#ff8daf12}.step.done .num{border-color:#a1e4c2;background:#a1e4c227;color:#b4f6d4}
+.tip{border:1px solid #ff9ac531;background:linear-gradient(120deg,#421e3666,#27203877);border-radius:16px;padding:16px;color:#dfcbd8;font-size:12px;line-height:1.75}.tip strong{display:block;color:#ffbad7;margin-bottom:6px}
+.heart{color:#f4a0c5}.footer{text-align:center;margin-top:23px;color:#867988;font-size:11px}.footer strong{color:#ecabc8}
+.toast{position:absolute;bottom:18px;left:50%;transform:translate(-50%,20px);background:#fff0f9;border-radius:99px;color:#321327;padding:10px 16px;box-shadow:0 12px 35px #0008;font-size:12px;font-weight:800;white-space:nowrap;max-width:92%;overflow:hidden;text-overflow:ellipsis;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;z-index:4}.toast.show{transform:translate(-50%,0);opacity:1}
+@keyframes pulse{to{opacity:.4}}
+@media(max-width:860px){.layout{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.profile{min-width:unset}.hero{align-items:end}}@media(max-width:600px){.wrap{padding:18px 13px 35px}.top{margin-bottom:28px}.chip{font-size:9px;padding:7px 9px}.hero{display:block}.hero h1{margin:10px 0 16px}.subtitle{font-size:12px}.profile{width:max-content;margin:22px 0 0;transform:none}.avatar{width:57px;height:57px}.layout{gap:13px}.mainCard,.sideCard{border-radius:18px}.gamehead{padding:17px 14px 13px}.stats{margin:0 11px 10px;gap:6px}.stat{padding:10px}.stat small{font-size:8px}.stage{margin:0 10px;aspect-ratio:900/650}.note{padding:12px;font-size:10px}.side{display:block}.sideCard{padding:20px;margin-bottom:12px}.modal .big{font-size:44px}.modal h2{font-size:27px}.modal p{font-size:12px}.cover{padding:17px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+<a class="brand" href="./"><span class="logo">🛏️</span><span><strong>LEYLA'S ROOM</strong><small>KYK AFTER HOURS · EDITION 01</small></span></a>
+<span class="chip">♥ MORAL YÜKSELTME OPERASYONU</span>
+</header>
+<section class="hero">
+<div><div class="eyebrow">Official KYK Survival Game</div>
+<h1>Leyla <em>Çarşaf Geçirme</em> Simülasyonu.</h1>
+<p class="subtitle">Gece 02.47. KYK'da herkes uyuyor. Ama bir yatağın çarşafı hâlâ geçirilmedi. <span class="pink">Leyla'nın efsanevi mücadelesine hoş geldin.</span></p></div>
+<aside class="profile"><img id="portrait" class="avatar" alt="Leyla'nın fotoğrafı"><div><strong>LEYLA ♥</strong><span>Başrol oyuncusu</span><span>Seviye: KYK Survivor</span></div></aside>
+</section>
+<div class="layout">
+<main class="mainCard">
+<div class="gamehead"><span class="sectiontitle">✦ YATAK OPERASYONU</span><span class="leveltag" id="levelTag">BÖLÜM 01 / 03</span></div>
+<div class="stats"><div class="stat"><small>KALAN SÜRE</small><strong id="clock">01:20</strong></div><div class="stat"><small>GEÇİRİLEN KÖŞE</small><strong id="count">0 / 4</strong></div><div class="stat"><small>TOPLAM PUAN</small><strong id="score">0000</strong></div></div>
+<div class="stage">
+<svg id="board" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" preserveAspectRatio="xMidYMid meet" aria-label="Çarşaf oyunu. Dört tutma noktasını uygun yatak köşelerine sürükle.">
+<defs>
+<linearGradient id="room" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#23162d"/><stop offset="1" stop-color="#110f1d"/></linearGradient>
+<linearGradient id="bed" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#494355"/><stop offset=".5" stop-color="#5a5063"/><stop offset="1" stop-color="#352c3e"/></linearGradient>
+<linearGradient id="sheet" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#332b40" stop-opacity=".91"/><stop offset="1" stop-color="#1a1b2d" stop-opacity=".94"/></linearGradient>
+<filter id="glow"><feGaussianBlur stdDeviation="6"/></filter>
+</defs>
+<rect width="900" height="540" fill="url(#room)"/>
+<path d="M0 114 H900 M0 415 H900" stroke="#ffffff09" stroke-width="2"/>
+<path d="M70 0V540 M820 0V540" stroke="#ffffff08" stroke-width="2"/>
+<rect x="70" y="46" width="182" height="118" rx="9" fill="#131324" stroke="#f2a2c133" stroke-width="5"/>
+<path d="M161 50V157 M76 105H247" stroke="#b69ab355" stroke-width="5"/>
+<circle cx="195" cy="79" r="21" fill="#f8d6a7" opacity=".82"/><circle cx="205" cy="70" r="21" fill="#171626"/>
+<circle cx="116" cy="88" r="2" fill="#fff"/><circle cx="219" cy="136" r="1.8" fill="#fff"/><circle cx="137" cy="140" r="1.5" fill="#fff"/>
+<rect x="727" y="110" width="65" height="170" rx="10" fill="#241a2d" stroke="#e6b9f121"/>
+<path d="M760 115V277" stroke="#e4b1cc2c" stroke-width="4"/>
+<circle cx="759" cy="135" r="9" fill="#ff80b8" filter="url(#glow)"/><circle cx="759" cy="135" r="5" fill="#ffb3d3"/>
+<ellipse cx="455" cy="437" rx="295" ry="37" fill="#000" opacity=".45" filter="url(#glow)"/>
+<rect x="217" y="140" width="466" height="292" rx="24" fill="#100f19" stroke="#a689a755" stroke-width="12"/>
+<rect x="235" y="157" width="430" height="250" rx="15" fill="url(#bed)" stroke="#a998b066" stroke-width="3"/>
+<rect x="257" y="174" width="133" height="52" rx="20" fill="#a59eaf" opacity=".75" transform="rotate(-3 257 174)"/>
+<rect x="508" y="174" width="133" height="52" rx="20" fill="#a59eaf" opacity=".75" transform="rotate(3 508 174)"/>
+<g id="targets"></g>
+<polygon id="sheetShape" points="175,105 535,105 548,330 175,330" fill="url(#sheet)" stroke="#d3b2dd" stroke-width="4" stroke-linejoin="round"/>
+<path id="fold" d="M175 125Q420 173 530 126" stroke="#ffffff22" stroke-width="4" fill="none"/>
+<g id="grips"></g>
+<text x="50%" y="508" text-anchor="middle" fill="#e8b9d290" font-size="14" font-family="system-ui" letter-spacing="3" font-weight="700">KYK • 02:47 AM</text>
+</svg>
+<div class="toast" id="toast" role="status"></div>
+<div class="cover" id="cover"><div class="modal"><div class="tag" id="modalTag">HOŞ GELDİN LEYLA</div><div class="big" id="modalEmoji">🛏️</div><h2 id="modalTitle">Çarşaf seni yenemez.</h2><p id="modalText">Dört çarşaf köşesini sürükleyip yatağın parlayan köşelerine oturt. Lastikler biraz huysuz olabilir!</p><button class="btn" id="mainBtn" type="button">Hadi başlayalım ♥</button></div></div>
+</div>
+<div class="note"><span>✦</span><span><b>Nasıl oynanır?</b> Numaralı pembe tutamaçları aynı numaralı yatak köşelerine sürükle. Telefonda parmağınla oynayabilirsin.</span></div>
+</main>
+<aside class="side">
+<section class="sideCard"><div class="sideHeader"><span class="ico">🎮</span> GÖREV LİSTESİ</div><p class="desc">Bir adet KYK yatağı, sonu gelmeyen sabır ve dört inatçı çarşaf köşesi.</p><div class="steps">
+<div class="step active" id="step0"><span class="num">01</span><span>Yatakla Tanışma</span></div>
+<div class="step" id="step1"><span class="num">02</span><span>Lastik İsyanı</span></div>
+<div class="step" id="step2"><span class="num">03</span><span>KYK Final Boss</span></div>
+</div></section>
+<section class="sideCard"><div class="sideHeader"><span class="ico">💌</span> LEYLA'YA NOT</div><div class="tip"><strong>Birinden sana mesaj var...</strong>Bugün moralin bozuk olsa da bil ki, bu oyunda ve gerçek hayatta seni gülümserken görmek isteyen biri var. <span class="heart">♥</span><br><br><span style="color:#bca5be">P.S. Son bölümü geç, sürprizi gör.</span></div></section>
+</aside>
+</div>
+<div class="footer">MADE WITH <strong>♥</strong> FOR LEYLA · <strong>KYK EDITION</strong> · KADİR'DEN KÜÇÜK BİR SÜRPRİZ</div>
+</div>
+<script>
+(function(){
+"use strict";
+document.getElementById("portrait").src="data:image/jpeg;base64,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";
+var svg=document.getElementById("board"),poly=document.getElementById("sheetShape"),grips=document.getElementById("grips"),targets=document.getElementById("targets"),fold=document.getElementById("fold");
+var cover=document.getElementById("cover"),toastEl=document.getElementById("toast"),btn=document.getElementById("mainBtn");
+var cfg=[
+ {title:"Yatakla Tanışma",time:80,story:"İlk görev kolay. Dört köşeyi yatağa oturt ve Leyla'nın KYK efsanesini başlat!"},
+ {title:"Lastik İsyanı",time:65,story:"Lastiklerin birinin kendi fikirleri var. Geçirdiğin bir köşe ansızın çıkabilir."},
+ {title:"KYK Final Boss",time:55,story:"Son bölüm! Çarşafın sabrını test edeceği belli. Ama Leyla daha inatçı."}
+];
+var dest=[[252,174],[648,174],[648,395],[252,395]],origin=[[160,100],[550,101],[550,330],[166,333]],pos=[],fixed=[],level=0,points=0,time=80,active=false,drag=-1,clockId=null,lastTick=0,pops=0,toastId=null,completed=false;
+function fmt(n){n=Math.max(0,Math.ceil(n));return String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0")}
+function text(id,v){document.getElementById(id).textContent=v}
+function announce(s){toastEl.textContent=s;toastEl.classList.add("show");clearTimeout(toastId);toastId=setTimeout(function(){toastEl.classList.remove("show")},1600)}
+function openModal(tag,emoji,title,body,label,act){text("modalTag",tag);text("modalEmoji",emoji);text("modalTitle",title);text("modalText",body);btn.textContent=label;btn.onclick=act;cover.classList.remove("hidden")}
+function showStats(){text("clock",fmt(time));text("count",fixed.filter(Boolean).length+" / 4");text("score",String(points).padStart(4,"0"));text("levelTag","BÖLÜM 0"+(level+1)+" / 03");document.getElementById("clock").classList.toggle("danger",time<=15);for(var i=0;i<3;i++){var item=document.getElementById("step"+i);item.className="step"+(i<level?" done":i===level?" active":"")}}
+function draw(){poly.setAttribute("points",pos.map(function(p){return p.map(function(n){return n.toFixed(1)}).join(",")}).join(" "));fold.setAttribute("d","M"+pos[0][0]+","+(pos[0][1]+25)+" Q455,230 "+pos[1][0]+","+(pos[1][1]+25));var ns="http://www.w3.org/2000/svg";grips.replaceChildren();targets.replaceChildren();for(var i=0;i<4;i++){
+ var t=document.createElementNS(ns,"g");t.setAttribute("class","target");var ring=document.createElementNS(ns,"circle");ring.setAttribute("cx",dest[i][0]);ring.setAttribute("cy",dest[i][1]);ring.setAttribute("r",fixed[i]?14:30);ring.setAttribute("fill",fixed[i]?"#9df3d9":"#ff9fc61c");ring.setAttribute("stroke",fixed[i]?"#9df3d9":"#ff9fc6");ring.setAttribute("stroke-width","3");ring.setAttribute("stroke-dasharray",fixed[i]?"0":"6 6");t.appendChild(ring);var tx=document.createElementNS(ns,"text");tx.textContent=fixed[i]?"✓":String(i+1);tx.setAttribute("x",dest[i][0]);tx.setAttribute("y",dest[i][1]+6);tx.setAttribute("text-anchor","middle");tx.setAttribute("fill",fixed[i]?"#153029":"#ffe0ee");tx.setAttribute("font-size","18");tx.setAttribute("font-weight","800");t.appendChild(tx);targets.appendChild(t);
+ var g=document.createElementNS(ns,"g");g.setAttribute("class","grip");g.dataset.corner=String(i);g.setAttribute("transform","translate("+pos[i][0]+" "+pos[i][1]+")");var a=document.createElementNS(ns,"circle");a.setAttribute("r",fixed[i]?15:27);a.setAttribute("fill",fixed[i]?"#b7f6db":"#ff9dc6");a.setAttribute("stroke","#fff3");a.setAttribute("stroke-width","4");g.appendChild(a);var b=document.createElementNS(ns,"text");b.textContent=fixed[i]?"✓":String(i+1);b.setAttribute("text-anchor","middle");b.setAttribute("dominant-baseline","middle");b.setAttribute("font-size",fixed[i]?"17":"21");b.setAttribute("font-weight","900");b.setAttribute("fill","#381126");g.appendChild(b);g.style.opacity=fixed[i]?".87":"1";grips.appendChild(g)
+ }}
+function reset(l){level=l;time=cfg[l].time;pos=origin.map(function(v){return v.slice()});fixed=[false,false,false,false];pops=0;active=false;drag=-1;completed=false;clearInterval(clockId);draw();showStats()}
+function go(){cover.classList.add("hidden");active=true;lastTick=Date.now();clearInterval(clockId);clockId=setInterval(function(){if(!active)return;var n=Date.now();time-=(n-lastTick)/1000;lastTick=n;if(time<=0){time=0;fail()}showStats()},100)}
+function fail(){active=false;clearInterval(clockId);openModal("SÜRE DOLDU","🥲","Çarşaf 1 — Leyla 0","Bu bir yenilgi değil, sadece KYK yatağının küçük bir zaferi. Bir daha dene!","Tekrar dene ↻",function(){reset(level);go()})}
+function finish(){if(completed)return;completed=true;active=false;clearInterval(clockId);points+=Math.ceil(time)*8;showStats();if(level===2){try{var h=+(localStorage.getItem("leyla-kyk-best")||0);if(points>h)localStorage.setItem("leyla-kyk-best",String(points))}catch(e){}openModal("GÖREV TAMAMLANDI • 3/3","👑","KYK KRALİÇESİ LEYLA!","Tebrikler güzelim! Çarşafı bile alt ettin. Bugün biraz zor geçse de Kadir seni çok seviyor. İyi ki varsın. Gülümsemen her şeye değer. ♥  Final puanın: "+points,"Bir daha oynayalım ♥",function(){points=0;reset(0);go()});confetti()}else{openModal("BÖLÜM TAMAMLANDI","✨","Efsane hareket, Leyla!","Dört köşe de tamam! +"+Math.ceil(time)*8+" süre bonusu. Ama asıl mücadele şimdi başlıyor...","Sonraki bölüm →",function(){reset(level+1);go()})}}
+function confetti(){for(var i=0;i<30;i++){var e=document.createElement("span");e.textContent=i%3?"♥":"✦";e.style.cssText="position:fixed;top:-20px;left:"+(Math.random()*100)+"vw;color:"+(i%2?"#ffa3ce":"#c2b3ff")+";font-size:"+(13+Math.random()*23)+"px;pointer-events:none;z-index:99;transition:transform "+(2+Math.random()*2)+"s linear,opacity 3s";document.body.appendChild(e);(function(node){setTimeout(function(){node.style.transform="translateY(110vh) rotate(540deg)";node.style.opacity="0"},20);setTimeout(function(){node.remove()},4200)})(e)}}
+function hit(i){if(fixed[i])return;fixed[i]=true;pos[i]=dest[i].slice();points+=100;draw();showStats();announce(["Birinci köşe cepte!","Çok iyi gidiyorsun!","Son düzlük!","Leyla 1 — çarşaf 0!"][i]);if(fixed.every(Boolean)){finish();return}
+ var cnt=fixed.filter(Boolean).length;
+ if(level>0&&cnt>=2&&pops<level){var candidates=fixed.map(function(v,j){return v?j:-1}).filter(function(j){return j>=0&&j!==i});var k=candidates.length?candidates[0]:i;pops++;setTimeout(function(){if(!active||completed)return;fixed[k]=false;pos[k]=[dest[k][0]+(k%2===0?-82:82),dest[k][1]+(k<2?-66:66)];draw();showStats();announce("HOP! Lastik "+(k+1)+". köşeden fırladı! 😭")},450)}
+}
+function local(e){var rect=svg.getBoundingClientRect(),s=Math.min(rect.width/900,rect.height/540);return [(e.clientX-rect.left-(rect.width-900*s)/2)/s,(e.clientY-rect.top-(rect.height-540*s)/2)/s]}
+svg.addEventListener("pointerdown",function(e){if(!active)return;var pt=local(e),closest=-1,dist=100;for(var i=0;i<4;i++){if(fixed[i])continue;var d=Math.hypot(pos[i][0]-pt[0],pos[i][1]-pt[1]);if(d<dist&&d<62){closest=i;dist=d}}if(closest<0)return;drag=closest;svg.setPointerCapture(e.pointerId);e.preventDefault()});
+svg.addEventListener("pointermove",function(e){if(drag<0||!active)return;var p=local(e);pos[drag]=[Math.min(845,Math.max(54,p[0])),Math.min(470,Math.max(54,p[1]))];draw();e.preventDefault()});
+function drop(e){if(drag<0)return;var i=drag;drag=-1;if(!active)return;var p=local(e);if(Math.hypot(p[0]-dest[i][0],p[1]-dest[i][1])<67){hit(i)}else{pos[i]=[Math.min(845,Math.max(54,p[0])),Math.min(470,Math.max(54,p[1]))];draw();announce("Biraz daha köşeye yaklaştır ✦")}}
+svg.addEventListener("pointerup",drop);svg.addEventListener("pointercancel",function(){drag=-1});
+reset(0);openModal("HOŞ GELDİN LEYLA","🛏️","Çarşaf seni yenemez.","Dört pembe köşeyi aynı numaralı parlayan yatak köşesine sürükle. Üç bölümde de pes etmek yok!","Hadi başlayalım ♥",go);
+})();
+</script>
+</body>
+</html>
